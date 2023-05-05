@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';  
 import Navbar from "./NavBar";
 import {signin} from './../services/api.js'
-
 import "./SignupForm.css";
+
+
 
 const SigninForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSignin = async(event) => {
     event.preventDefault();
     const userData = {email, password };
-    console.log(userData);
-    await signin(userData);
+   try{
+// console.log(userData);
+  // await signin(userData); 
+   const response = await signin(userData); 
+    if(response.status === 201){
+      navigate('/Dashboard');
+    }
+   }catch(error){
+    alert(" Incorrect credentials!");
+   }
   };
 
   return (

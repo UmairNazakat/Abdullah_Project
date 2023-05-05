@@ -16,8 +16,16 @@ export const signup = async (data) => {
 }
 export const signin = async (data) => {
     try{
-        return await axios.post(`${URL}/signup`,data)
+        return await axios.post(`${URL}/login`,data)
     }catch(error){
         console.log("error occur in api file " + error)
     }
 }
+
+
+
+export const dashboarddata = async()=>{
+const {data} = await axios.get(`http://localhost:8000/Dashboard`)
+      return data;
+  
+  } 

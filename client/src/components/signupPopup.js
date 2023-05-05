@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from "./NavBar";
 import "./SignupForm.css";
 import {signup} from './../services/api.js'
@@ -10,12 +11,23 @@ const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSignup = async (event) => {
     event.preventDefault();
     // Handle signup logic here
     const userData = { Name, CompanyName, email, password };
-    console.log(userData);
-    await signup(userData);
+    try{
+      const response = await signup(userData);
+      if (response.status === 201) {
+        // Successful signup
+        // alert("Signup Successful!");
+        navigate('/login');
+    }
+    }
+    catch(error){
+      alert(" Incorrect credentials!");
+    }
 
   };
 

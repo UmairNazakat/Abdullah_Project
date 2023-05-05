@@ -1,6 +1,7 @@
+import {dashboarddata } from "../../../../services/api";
 import {
   DollarCircleOutlined,
-  ShoppingCartOutlined,
+  UsergroupAddOutlined,
   ShoppingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -29,22 +30,31 @@ ChartJS.register(
 );
 
 function Dashboard() {
-  const [orders, setOrders] = useState(0);
-  const [inventory, setInventory] = useState(0);
+  const [users, setUsers] = useState(0);
+  const [properties, setProperties] = useState(0);
   const [customers, setCustomers] = useState(0);
   const [revenue, setRevenue] = useState(0);
 
   useEffect(() => {
     getOrders().then((res) => {
-      setOrders(res.total);
+      // setOrders(res.total);
       setRevenue(res.discountedTotal);
     });
     getInventory().then((res) => {
-      setInventory(res.total);
+      // setInventory(res.total);
     });
     getCustomers().then((res) => {
       setCustomers(res.total);
     });
+    const getData = async () => {
+      const result = await dashboarddata();
+      // setData(result);
+      console.log(result);
+      setUsers(result.users);
+      setProperties(result.property);
+    };
+    getData();
+ 
   }, []);
 
   return (
@@ -53,19 +63,19 @@ function Dashboard() {
       <Space direction="horizontal">
         <DashboardCard 
           icon={
-            <ShoppingCartOutlined
+            <UsergroupAddOutlined
               style={{
                 color: "green",
                 // backgroundColor: "rgba(0,255,0,0.25)",
-                backgroundColor: "blue",
+                backgroundColor: "#FEF8DD",
                 borderRadius: 20,
                 fontSize: 24,
                 padding: 8,
               }}
             />
           }
-          title={"Orders"}
-          value={orders}
+          title={"Total Users"}
+          value={users}
         />
         <DashboardCard
           icon={
@@ -79,8 +89,8 @@ function Dashboard() {
               }}
             />
           }
-          title={"Inventory"}
-          value={inventory}
+          title={"Total Properties"}
+          value={properties}
         />
         <DashboardCard
           icon={

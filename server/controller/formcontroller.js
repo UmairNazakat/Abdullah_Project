@@ -52,10 +52,7 @@ try{
     const alreadyExist = await signupmodel.findOne({email});
 
     if(alreadyExist){
-        // User Already Exist
-        return res.status(400).json({
-        message:"user Already Exist"
-    });
+        throw Error("User Aready Exist !")
     }
 
     await signupmodels.save();
@@ -98,7 +95,7 @@ if (!matchpassword) {
 
   // Login successful
   const token = Jwt.sign({email : user.email, id : user._Id},SECRET_KEY)
-  return res.status(200).json({
+  return res.status(201).json({
      message: 'Login successful',
      token : token
      });
@@ -108,5 +105,24 @@ if (!matchpassword) {
 
 }
 }
-
 // ########################################## SignIn Controller END ########################################## 
+
+export const controllergetUsers = async(req,res)=>{
+    try{
+        const users = await signupmodel.find().count();
+        const property = await user.find().count();
+        return res.status(200).json({users: users, property :property });
+ 
+        }catch(error){
+            return res.status(409).json({message: error.message});
+        
+        }   
+}
+
+
+
+
+
+
+
+

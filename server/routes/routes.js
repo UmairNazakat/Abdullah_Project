@@ -1,5 +1,5 @@
 import Express, {Router} from "express";
-import { controllerform, controllerSignup, controllerSignin} from "../controller/formcontroller.js";
+import { controllerform, controllerSignup, controllerSignin, controllergetUsers} from "../controller/formcontroller.js";
 // const multer = require('multer');
 import multer from "multer";
 import Path from "path";
@@ -25,6 +25,7 @@ const upload = multer({
 // router.post('/add',upload.single("propertyImg") ,controllerform)
 router.post('/form',upload.fields([ {name : 'propertyImg' }, {name : 'propertyVideo' }, {name : 'propertypdf' } ]) ,controllerform)
 router.post('/signup',controllerSignup);
-router.post('/signin',controllerSignin);
+router.post('/login',controllerSignin);
+router.get('/Dashboard',controllergetUsers);
  
 export default router;
