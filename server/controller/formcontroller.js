@@ -13,6 +13,7 @@ export const controllerform = async (req, res) =>{
     const {property_type, city,location,area,priceFrom,priceTo,installment,
         possession,bedrooms,bathrooms, outdoor, interior, otherfeather, utilities, title,description,email,
         mobile,Landline, fields} = req.body;
+        const status = "pending";
         // const Image = req.files['propertyImg'][0].filename; 
         const Image = req.files && req.files['propertyImg'] ? req.files['propertyImg'][0].filename : undefined;
         const video = req.files && req.files['propertyVideo'] ? req.files['propertyVideo'][0].filename : undefined;
@@ -26,7 +27,7 @@ export const controllerform = async (req, res) =>{
     // const pdfss = req.files; 
     const newuser = new user({property_type, city,location,area,priceFrom,priceTo,installment,
         possession,bedrooms,bathrooms, outdoor, interior, otherfeather, utilities, title,description,email,
-        mobile,Landline,Image,video,pdf, fields}) 
+        mobile,Landline,Image,video,pdf,status, fields}) 
 
     try{
         await newuser.save();
@@ -47,7 +48,8 @@ export const controllerform = async (req, res) =>{
 
 export const controllerSignup = async (req,res)=>{
 const {Name, CompanyName, email, password} = req.body;
-const signupmodels = new signupmodel({Name, CompanyName, email, password})
+const status = "pending";
+const signupmodels = new signupmodel({Name, CompanyName, email, password, status})
 try{
     const alreadyExist = await signupmodel.findOne({email});
 
@@ -92,6 +94,14 @@ if (!matchpassword) {
          message: 'Invalid credentials'
          });
   }
+// const checkStatus = user.status == "pending" || user.status == "Rejected";
+// const checkStatus = user.status == "pending";
+// if (checkStatus) {
+//     // Password doesn't match
+//     return res.status(400).json({
+//          message: 'User is in pending'
+//          });
+//   }
 
   // Login successful
   const token = Jwt.sign({email : user.email, id : user._Id},SECRET_KEY)
@@ -107,11 +117,24 @@ if (!matchpassword) {
 }
 // ########################################## SignIn Controller END ########################################## 
 
+
+// ########################################## Dashboard Controller Start ########################################## 
+
 export const controllergetUsers = async(req,res)=>{
     try{
         const users = await signupmodel.find().count();
+        const pendingUser = await signupmodel.find({status: "pending"}).count();
         const property = await user.find().count();
-        return res.status(200).json({users: users, property :property });
+        const pendingproperty = await user.find({ status: "pending" }).count();
+        const propertyDetails = await user.find();
+        return res.status(200).json({
+            
+            users: users,
+            property :property, 
+            pendingUser : pendingUser, 
+            pendingproperty : pendingproperty,
+            propertyDetails : propertyDetails 
+        });
  
         }catch(error){
             return res.status(409).json({message: error.message});
@@ -119,10 +142,21 @@ export const controllergetUsers = async(req,res)=>{
         }   
 }
 
+// ########################################## Dashboard Controller END ########################################## 
 
 
+// ########################################## Customer Controller Start ########################################## 
+export const controllerGetCustomers = async(req,res)=>{
+try{
+    const allUsers = await signupmodel.find();
+    return res.status(200).json({
+        allUsers:allUsers
+    })
 
+}catch(error){
+    return res.status(400).json({message:error.message})
+}
+}
 
-
-
-
+// ########################################## Customer Controller END ########################################## 
+ 

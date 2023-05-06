@@ -29,3 +29,14 @@ const {data} = await axios.get(`http://localhost:8000/Dashboard`)
       return data;
   
   } 
+  export const GetCustomers = async() => {
+    try {
+      const { data } = await axios.get(`http://localhost:8000/Customers`);
+      return data;
+    } catch(error) {
+      console.error(error);
+      throw error;
+    }
+  } 
+
+  

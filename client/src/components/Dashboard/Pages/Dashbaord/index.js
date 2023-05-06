@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Card, Space, Statistic, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { getCustomers, getInventory, getOrders, getRevenue } from "../../API";
+import { getOrders, getRevenue } from "../../API";
 
 import {
   Chart as ChartJS,
@@ -32,26 +32,19 @@ ChartJS.register(
 function Dashboard() {
   const [users, setUsers] = useState(0);
   const [properties, setProperties] = useState(0);
-  const [customers, setCustomers] = useState(0);
-  const [revenue, setRevenue] = useState(0);
+  const [Pendingusers, setPendingUsers] = useState(0);
+  const [Pendingproperties, setPendingProperties] = useState(0);
 
   useEffect(() => {
-    getOrders().then((res) => {
-      // setOrders(res.total);
-      setRevenue(res.discountedTotal);
-    });
-    getInventory().then((res) => {
-      // setInventory(res.total);
-    });
-    getCustomers().then((res) => {
-      setCustomers(res.total);
-    });
+
     const getData = async () => {
       const result = await dashboarddata();
       // setData(result);
       console.log(result);
       setUsers(result.users);
       setProperties(result.property);
+      setPendingUsers(result.pendingUser);
+      setPendingProperties(result.pendingproperty);
     };
     getData();
  
@@ -104,8 +97,8 @@ function Dashboard() {
               }}
             />
           }
-          title={"Customer"}
-          value={customers}
+          title={"Pending Users"}
+          value={Pendingusers}
         />
         <DashboardCard
           icon={
@@ -119,13 +112,13 @@ function Dashboard() {
               }}
             />
           }
-          title={"Revenue"}
-          value={revenue}
+          title={"Pending Properties"}
+          value={Pendingproperties}
         />
       </Space>
       <Space>
         <RecentOrders />
-        <DashboardChart />
+        {/* <DashboardChart /> */}
       </Space>
     </Space>
   );
@@ -146,86 +139,105 @@ function RecentOrders() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    getOrders().then((res) => {
-      setDataSource(res.products.splice(0, 3));
-      setLoading(false);
-    });
+    // setLoading(true);
+    const getpropertyData = async()=>{
+      const getPropertyDataResult = await dashboarddata();
+     const propertyDetails = getPropertyDataResult.propertyDetails;
+     const newDataSource = propertyDetails.map((property)=>({
+      key : property._id,
+      title : property.title,
+          type : property.property_type,
+          price : property.price,
+          status : property.status,
+          priceFrom : property.priceFrom,
+          priceTo : property.priceTo
+     }));
+     setDataSource(newDataSource);
+    }
+getpropertyData();
   }, []);
 
   return (
-    <>
+    <> 
       <Typography.Text>Recent Orders</Typography.Text>
-      <Table style={{ width: 500, height: 300 }}
+      <Table style={{ width: 1000, height: "100%", marginBottom: "20px" }}
         columns={[
           {
-            title: "Title",
+            title: "Property Title",
             dataIndex: "title",
           },
           {
-            title: "Quantity",
-            dataIndex: "quantity",
+            title: "Property Type",
+            dataIndex: "type",
           },
           {
-            title: "Price",
-            dataIndex: "discountedPrice",
+            title: "Property Price From",
+            dataIndex: "priceFrom",
           },
+          {
+            title: "Property Price To",
+            dataIndex: "priceTo",
+          },
+          {
+            title: "Property Status",
+            dataIndex: "status",
+          }, 
         ]}
         loading={loading}
         dataSource={dataSource}
-        pagination={false}
+        pagination={true}
       ></Table>
     </>
   );
 }
 
-function DashboardChart() {
-  const [reveneuData, setReveneuData] = useState({
-    labels: [],
-    datasets: [],
-  });
+// function DashboardChart() {
+//   const [reveneuData, setReveneuData] = useState({
+//     labels: [],
+//     datasets: [],
+//   });
 
-  useEffect(() => {
-    getRevenue().then((res) => {
-      const labels = res.carts.map((cart) => {
-        return `User-${cart.userId}`;
-      });
-      const data = res.carts.map((cart) => {
-        return cart.discountedTotal;
-      });
+//   useEffect(() => {
+//     getRevenue().then((res) => {
+//       const labels = res.carts.map((cart) => {
+//         return `User-${cart.userId}`;
+//       });
+//       const data = res.carts.map((cart) => {
+//         return cart.discountedTotal;
+//       });
 
-      const dataSource = {
-        labels,
-        datasets: [
-          {
-            label: "Revenue",
-            data: data,
-            backgroundColor: "rgba(255, 0, 0, 1)",
-          },
-        ],
-      };
+//       const dataSource = {
+//         labels,
+//         datasets: [
+//           {
+//             label: "Revenue",
+//             data: data,
+//             backgroundColor: "rgba(255, 0, 0, 1)",
+//           },
+//         ],
+//       };
 
-      setReveneuData(dataSource);
-    });
-  }, []);
+//       setReveneuData(dataSource);
+//     });
+//   }, []);
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom",
-      },
-      title: {
-        display: true,
-        text: "Order Revenue",
-      },
-    },
-  };
+//   const options = {
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         position: "bottom",
+//       },
+//       title: {
+//         display: true,
+//         text: "Order Revenue",
+//       },
+//     },
+//   };
 
-  return (
-    <Card style={{ width: 550, height: 300 }}>
-      <Bar options={options} data={reveneuData} />
-    </Card>
-  );
-}
+//   return (
+//     <Card style={{ width: 550, height: 300 }}>
+//       <Bar options={options} data={reveneuData} />
+//     </Card>
+//   );
+// }
 export default Dashboard;

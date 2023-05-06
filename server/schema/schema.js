@@ -23,6 +23,7 @@ const userschema = mongoose.Schema({
   Image : String,
   video : String,
   pdf : String,
+  status : String,
   fields : []
 })
 
@@ -36,7 +37,8 @@ const signupSchema = mongoose.Schema({
   Name : String,
   CompanyName : String,
   email : String,
-  password : String
+  password : String,
+  status : String
 })
 
 export const signupmodel = mongoose.model('signup',signupSchema); 

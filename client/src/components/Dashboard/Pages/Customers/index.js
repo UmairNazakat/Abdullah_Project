@@ -1,6 +1,6 @@
 import { Avatar, Space, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { getCustomers } from "../../API";
+import { GetCustomers } from "../../../../services/api";
 import AppHeader from "../../Components/AppHeader";
 import SideMenu from "../../Components/SideMenu";
 
@@ -9,11 +9,20 @@ function Customers() {
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-    getCustomers().then((res) => {
-      setDataSource(res.users);
-      setLoading(false);
-    });
+    const getCustomerData = async()=>{
+      
+      const result = await GetCustomers();
+      const results = result.allUsers;
+      const customers = results.map((customer)=>({
+        name : customer.Name,
+        companyName : customer.CompanyName,
+        email : customer.email
+      }));
+      setDataSource(customers);
+      // console.log(result); 
+    }
+    getCustomerData();
+ 
   }, []);
 
   return (
@@ -29,41 +38,21 @@ function Customers() {
       <Table style={{ width: 1000 }}
         loading={loading}
         columns={[
+          
           {
-            title: "Photo",
-            dataIndex: "image",
-            render: (link) => {
-              return <Avatar src={link} />;
-            },
+            title: "Name",
+            dataIndex: "name",
           },
           {
-            title: "First Name",
-            dataIndex: "firstName",
+            title: "company Name",
+            dataIndex: "companyName",
           },
-          {
-            title: "LastName",
-            dataIndex: "lastName",
-          },
-          {
+          { 
             title: "Email",
             dataIndex: "email",
           },
-          {
-            title: "Phone",
-            dataIndex: "phone",
-          },
-
-          {
-            title: "address",
-            dataIndex: "address",
-            render: (address) => {
-              return (
-                <span>
-                  {address.address}, {address.city}
-                </span>
-              );
-            },
-          },
+          
+ 
         ]}
         dataSource={dataSource}
         pagination={{
