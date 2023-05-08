@@ -16,7 +16,8 @@ function Customers() {
       const customers = results.map((customer)=>({
         name : customer.Name,
         companyName : customer.CompanyName,
-        email : customer.email
+        email : customer.email,
+        status : customer.status
       }));
       setDataSource(customers);
       // console.log(result); 
@@ -30,7 +31,10 @@ function Customers() {
     <>
 
     <AppHeader />
-    <div className="SideMenuAndPageContent" style={{background: "#F2F2F2"}}>
+    <div className="SideMenuAndPageContent" style={{
+      background: "#F2F2F2",
+      height : "91vh"
+      }}>
     <SideMenu></SideMenu> 
 
     <Space size={20} direction="vertical" style={{background: "#F2F2F2"}}>
@@ -50,6 +54,10 @@ function Customers() {
           { 
             title: "Email",
             dataIndex: "email",
+          },
+          { 
+            title: "Status",
+            dataIndex: "status",
           },
           
  

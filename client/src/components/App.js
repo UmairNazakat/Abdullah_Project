@@ -12,6 +12,8 @@ import Dashboard from "./Dashboard/Dashboard.js";
 import Inventory from "./Dashboard/Pages/Inventory/index.js";
 import Orders from "./Dashboard/Pages/Orders/index.js";
 import Customers from "./Dashboard/Pages/Customers/index.js";
+// import pendingCustomers from "./Dashboard/Pages/pendingCustomers/index.js";
+import PendingCustomers from "./Dashboard/Pages/pendingCustomers/index.js"
 function App() {
   return (
     <Router>
@@ -25,6 +27,7 @@ function App() {
         <Route path="/Inventory" element={<Inventory />} />
         <Route path="/Orders" element={<Orders />} />
         <Route path="/Customers" element={<Customers />} />
+        <Route path="/pendingCustomers" element={<PendingCustomers />} />
 
       </Routes>
     </Router>

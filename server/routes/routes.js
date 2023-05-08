@@ -1,5 +1,13 @@
 import Express, {Router} from "express";
-import { controllerform, controllerSignup, controllerSignin, controllergetUsers, controllerGetCustomers} from "../controller/formcontroller.js";
+import { 
+    controllerform, 
+    controllerSignup, 
+    controllerSignin, 
+    controllergetUsers, 
+    controllerGetCustomers,
+    controllerGetpendingCustomers,
+    controllerCustomerStatus
+} from "../controller/formcontroller.js";
 // const multer = require('multer');
 import multer from "multer";
 import Path from "path";
@@ -28,5 +36,7 @@ router.post('/signup',controllerSignup);
 router.post('/login',controllerSignin);
 router.get('/Dashboard',controllergetUsers);
 router.get('/Customers',controllerGetCustomers);
+router.get('/pendingCustomers',controllerGetpendingCustomers);
+router.put('/statuschange',controllerCustomerStatus);
  
 export default router;

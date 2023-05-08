@@ -159,4 +159,45 @@ try{
 }
 
 // ########################################## Customer Controller END ########################################## 
+
+
+// ########################################## Pending Customers Controller Start ##########################################
+export const controllerGetpendingCustomers = async(req,res)=>{
+    try{
+        const pendingCustomers = await signupmodel.find({status : "pending"})
+        return res.status(200).json({
+            pendingCustomers 
+        })
+    }catch(error){
+        return res.status(409).json({message : error.message})
+    }
+    
+}
+// ########################################## Pending Customers Controller END ########################################## 
+
+
+// ########################################## Approval Status Change Controller Start ##########################################
+export const controllerCustomerStatus = async(req,res)=>{
+    try{
+    const {id, message} = req.body
+     
+        const Customers = await signupmodel.find({_id : id});
+        if(!Customers){
+            throw Error("user is found");
+        }
+        if(message == "Approved"){
+            await signupmodel.findByIdAndUpdate({_id: id},{status: message},{new :true})
+        }else{
+            await signupmodel.findByIdAndUpdate({_id: id},{status: message},{new :true})    
+        }
+         res.status(200).json({message : "Update successfully"})
+        
+    }catch(error){
+        return res.status(409).json({message : error.message})
+    }
+    
+}
+// ########################################## Approval Status Change Controller END ########################################## 
+
+
  

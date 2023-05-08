@@ -51,6 +51,11 @@ function SideMenu() {
             icon: <UserOutlined />,
           },
           {
+            label: "Pending CLients",
+            key: "/pendingCustomers",
+            icon: <UserOutlined />,
+          },
+          {
             label: "Logout",
             key: "/",
             icon: <LogoutOutlined />,

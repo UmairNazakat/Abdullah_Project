@@ -25,18 +25,38 @@ export const signin = async (data) => {
 
 
 export const dashboarddata = async()=>{
-const {data} = await axios.get(`http://localhost:8000/Dashboard`)
+const {data} = await axios.get(`${URL}/Dashboard`)
       return data;
   
   } 
   export const GetCustomers = async() => {
     try {
-      const { data } = await axios.get(`http://localhost:8000/Customers`);
+      const { data } = await axios.get(`${URL}/Customers`);
       return data;
     } catch(error) {
-      console.error(error);
+    //   console.error(error);
       throw error;
     }
   } 
 
-  
+  export const GetpendingCustomers = async ()=>{
+    try{
+        const {data} = await axios.get(`${URL}/pendingCustomers`);
+        return data
+        // return console.log(data);
+        
+    }catch(error){
+        console.log("error occur in api file  pending Users " + error)
+
+    }
+  }
+ 
+  export const Rejectuser = async (data)=>{
+    try{
+        return await axios.put(`${URL}/statuschange`,data);
+    }catch(error){
+        console.log("error occur in api file " + error);
+    }
+  }
+
+
