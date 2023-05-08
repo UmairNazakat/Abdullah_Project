@@ -7,7 +7,6 @@ import {
 } from "@ant-design/icons";
 import { Card, Space, Statistic, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { getOrders, getRevenue } from "../../API";
 
 import {
   Chart as ChartJS,
@@ -18,7 +17,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -159,7 +157,7 @@ getpropertyData();
 
   return (
     <> 
-      <Typography.Text>Recent Orders</Typography.Text>
+      <Typography.Text>Properties</Typography.Text>
       <Table style={{ width: 1000, height: "100%", marginBottom: "20px" }}
         columns={[
           {
@@ -190,54 +188,5 @@ getpropertyData();
     </>
   );
 }
-
-// function DashboardChart() {
-//   const [reveneuData, setReveneuData] = useState({
-//     labels: [],
-//     datasets: [],
-//   });
-
-//   useEffect(() => {
-//     getRevenue().then((res) => {
-//       const labels = res.carts.map((cart) => {
-//         return `User-${cart.userId}`;
-//       });
-//       const data = res.carts.map((cart) => {
-//         return cart.discountedTotal;
-//       });
-
-//       const dataSource = {
-//         labels,
-//         datasets: [
-//           {
-//             label: "Revenue",
-//             data: data,
-//             backgroundColor: "rgba(255, 0, 0, 1)",
-//           },
-//         ],
-//       };
-
-//       setReveneuData(dataSource);
-//     });
-//   }, []);
-
-//   const options = {
-//     responsive: true,
-//     plugins: {
-//       legend: {
-//         position: "bottom",
-//       },
-//       title: {
-//         display: true,
-//         text: "Order Revenue",
-//       },
-//     },
-//   };
-
-//   return (
-//     <Card style={{ width: 550, height: 300 }}>
-//       <Bar options={options} data={reveneuData} />
-//     </Card>
-//   );
-// }
+ 
 export default Dashboard;

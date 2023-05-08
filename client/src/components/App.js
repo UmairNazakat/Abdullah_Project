@@ -14,6 +14,7 @@ import Orders from "./Dashboard/Pages/Orders/index.js";
 import Customers from "./Dashboard/Pages/Customers/index.js";
 // import pendingCustomers from "./Dashboard/Pages/pendingCustomers/index.js";
 import PendingCustomers from "./Dashboard/Pages/pendingCustomers/index.js"
+import PendingProperties from "./Dashboard/Pages/PendingProperties/index.js"
 function App() {
   return (
     <Router>
@@ -28,6 +29,7 @@ function App() {
         <Route path="/Orders" element={<Orders />} />
         <Route path="/Customers" element={<Customers />} />
         <Route path="/pendingCustomers" element={<PendingCustomers />} />
+        <Route path="/PendingProperties" element={<PendingProperties />} />
 
       </Routes>
     </Router>

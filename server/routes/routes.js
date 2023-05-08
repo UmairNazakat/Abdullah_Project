@@ -6,7 +6,9 @@ import {
     controllergetUsers, 
     controllerGetCustomers,
     controllerGetpendingCustomers,
-    controllerCustomerStatus
+    controllerGetpendingProperties,
+    controllerCustomerStatus,
+    controllerpropertyStatus
 } from "../controller/formcontroller.js";
 // const multer = require('multer');
 import multer from "multer";
@@ -22,7 +24,7 @@ const imageconfig = multer.diskStorage({
         callback(null, file.fieldname+`-`+ Date.now()+ Path.extname(file.originalname));
     }
 })
-
+ 
 
 const upload = multer({
     storage:imageconfig
@@ -37,6 +39,8 @@ router.post('/login',controllerSignin);
 router.get('/Dashboard',controllergetUsers);
 router.get('/Customers',controllerGetCustomers);
 router.get('/pendingCustomers',controllerGetpendingCustomers);
+router.get('/pendingProperties',controllerGetpendingProperties);
 router.put('/statuschange',controllerCustomerStatus);
+router.put('/statusPropertychange',controllerpropertyStatus);
  
 export default router;

@@ -1,9 +1,9 @@
 import { Button, Modal, Space, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { GetpendingCustomers } from "../../../../services/api";
+import { Getpendingproperties } from "../../../../services/api";
 import AppHeader from "../../Components/AppHeader";
 import SideMenu from "../../Components/SideMenu";
-import { statuschange } from "../../../../services/api";
+import { statusPropertychange } from "../../../../services/api";
 
 function Customers() {
   const [loading, setLoading] = useState(false);
@@ -21,27 +21,29 @@ function Customers() {
 
 
   useEffect(() => {
-    const GetpendingCustomersData = async () => {
-      const result = await GetpendingCustomers();
+    const Getpendingpropertiesdata = async () => {
+      const result = await Getpendingproperties();
     //   console.log(result);
-      const results = result.pendingCustomers;
-      const customers = results.map((customer) => ({
-        Id : customer._id,
-        name: customer.Name,
-        companyName: customer.CompanyName,
-        email: customer.email,
-        status: customer.status,
+      const results = result.pendingProperties;
+      const Properties = results.map((property) => ({
+        Id : property._id,
+      title : property.title,
+          type : property.property_type,
+          price : property.price,
+          priceFrom : property.priceFrom,
+          priceTo : property.priceTo,
+          status : property.status,
       }));
-      setDataSource(customers);
+      setDataSource(Properties);
     };
-    GetpendingCustomersData();
+    Getpendingpropertiesdata();
   }, []);
 
 
   const handleOk = async () => {
 
     const selectedID = selectedRecord.Id;
-    await statuschange({
+    await statusPropertychange({
         id : selectedID,
         message : "Approved"
     });
@@ -50,7 +52,7 @@ function Customers() {
 
   const handleCancel = async () => {
     const selectedID = selectedRecord.Id;
-    await statuschange({
+    await statusPropertychange({
         id : selectedID,
         message : "Rejected"
     });
@@ -74,25 +76,29 @@ function Customers() {
           direction="vertical"
           style={{ background: "#F2F2F2" }}
         >
-          <Typography.Title level={4}>Pending Customers</Typography.Title>
+          <Typography.Title level={4}>Pending Properties</Typography.Title>
           <Table
             style={{ width: 1000 }}
             loading={loading}
             columns={[
               {
-                title: "Name",
+                title: "Property Title",
                 dataIndex: "name",
               },
               {
-                title: "company Name",
+                title: "Property Type",
                 dataIndex: "companyName",
               },
               {
-                title: "Email",
+                title: "Property Price From",
                 dataIndex: "email",
               },
               {
-                title: "Status",
+                title: "Property Price To",
+                dataIndex: "status",
+              },
+              {
+                title: "Property Status",
                 dataIndex: "status",
               },
               {

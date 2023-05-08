@@ -35,16 +35,16 @@ function SideMenu() {
             icon: <AppstoreOutlined />,
             key: "/Dashboard",
           },
-          {
-            label: "Inventory",
-            key: "/inventory",
-            icon: <ShopOutlined />,
-          },
-          {
-            label: "Orders",
-            key: "/orders",
-            icon: <ShoppingCartOutlined />,
-          },
+          // {
+          //   label: "Inventory",
+          //   key: "/inventory",
+          //   icon: <ShopOutlined />,
+          // },
+          // {
+          //   label: "Orders",
+          //   key: "/orders",
+          //   icon: <ShoppingCartOutlined />,
+          // },
           {
             label: "CLients",
             key: "/customers",
@@ -53,6 +53,11 @@ function SideMenu() {
           {
             label: "Pending CLients",
             key: "/pendingCustomers",
+            icon: <UserOutlined />,
+          },
+          {
+            label: "Pending Properties",
+            key: "/PendingProperties",
             icon: <UserOutlined />,
           },
           {

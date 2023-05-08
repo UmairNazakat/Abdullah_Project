@@ -176,11 +176,26 @@ export const controllerGetpendingCustomers = async(req,res)=>{
 // ########################################## Pending Customers Controller END ########################################## 
 
 
+// ########################################## pending Properties Controller Start ##########################################
+export const controllerGetpendingProperties = async(req,res)=>{
+    try{
+        const pendingProperties = await user.find({status : "pending"})
+        return res.status(200).json({
+            pendingProperties 
+        })
+    }catch(error){
+        return res.status(409).json({message : error.message})
+    }
+    
+}
+// ########################################## pending Properties Controller END ########################################## 
+
+
 // ########################################## Approval Status Change Controller Start ##########################################
 export const controllerCustomerStatus = async(req,res)=>{
     try{
     const {id, message} = req.body
-     
+    console.log(typeof(id));
         const Customers = await signupmodel.find({_id : id});
         if(!Customers){
             throw Error("user is found");
@@ -190,12 +205,36 @@ export const controllerCustomerStatus = async(req,res)=>{
         }else{
             await signupmodel.findByIdAndUpdate({_id: id},{status: message},{new :true})    
         }
-         res.status(200).json({message : "Update successfully"})
-        
+         res.status(200).json({message : "Update successfully"})  
+         console.log(id);
+         console.log(message); 
     }catch(error){
         return res.status(409).json({message : error.message})
     }
-    
+}
+// ########################################## Approval Status Change Controller END ########################################## 
+
+
+// ########################################## Approval Status Change Controller Start ##########################################
+export const controllerpropertyStatus = async(req,res)=>{
+    try{
+    const {id, message} = req.body
+    console.log(typeof(id));
+        const property = await user.find({_id : id});
+        if(!property){
+            throw Error("property is found");
+        }
+        if(message == "Approved"){
+            await user.findByIdAndUpdate({_id: id},{status: message},{new :true})
+        }else{
+            await user.findByIdAndUpdate({_id: id},{status: message},{new :true})    
+        }
+         res.status(200).json({message : "Update successfully"})  
+         console.log(id);
+         console.log(message); 
+    }catch(error){
+        return res.status(409).json({message : error.message})
+    }
 }
 // ########################################## Approval Status Change Controller END ########################################## 
 

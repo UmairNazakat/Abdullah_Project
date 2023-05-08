@@ -50,13 +50,32 @@ const {data} = await axios.get(`${URL}/Dashboard`)
 
     }
   }
+
+
+  export const Getpendingproperties = async ()=>{
+    try{
+        const {data} = await axios.get(`${URL}/pendingProperties`);
+        return data
+        // return console.log(data);
+        
+    }catch(error){
+        console.log("error occur in api file  pending properties " + error)
+
+    }
+  }
  
-  export const Rejectuser = async (data)=>{
+  export const statuschange = async (data)=>{
     try{
         return await axios.put(`${URL}/statuschange`,data);
     }catch(error){
-        console.log("error occur in api file " + error);
+        console.log("error occur in api file statuschange "+ data.id );
     }
-  }
-
-
+  } 
+  export const statusPropertychange = async (data)=>{
+    try{
+        return await axios.put(`${URL}/statusPropertychange`,data);
+    }catch(error){
+        console.log("error occur in api file statuschange "+ data.id );
+    }
+  } 
+ 
